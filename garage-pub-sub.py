@@ -36,11 +36,11 @@ try:
     client.on_connect = on_connect
     client.on_message = on_message
 
-    #try:
-        #client.connect("192.168.0.97", port=1883, keepalive=60)
-        #client.loop_start()
-    #except Exception, e:
-        #print('MQTT connection error, ' + e.args)   # (111, Connection refused) if broker is down
+    try:
+        client.connect("192.168.0.97", port=1883, keepalive=60)
+        client.loop_start()
+    except Exception, e:
+        print('MQTT connection error, ' + e.args)   # (111, Connection refused) if broker is down
         # Print a message but keep running, still need to monitor physical garage door buttons.
 
     while True:
