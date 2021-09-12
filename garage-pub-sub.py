@@ -14,7 +14,9 @@ GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # LARGE door reed sensor
 
 def on_connect(client, userdata, flags, rc):
     print("connectd w/code "+str(rc))
-    client.subscribe([("/home/rpi3/garage/small-door-btn",0),("/home/rpi3/garage/large-door-btn",0)])
+    if rc == 0:
+        client.connected_flag = True
+        client.subscribe([("/home/rpi3/garage/small-door-btn",0),("/home/rpi3/garage/large-door-btn",0)])
 
 def on_message(client, userdata, msg):
     if msg.topic == "/home/rpi3/garage/small-door-btn":
@@ -30,11 +32,16 @@ def on_message(client, userdata, msg):
 
 try:
     client = mqtt.Client()
+    client.connected_flag = False
     client.on_connect = on_connect
     client.on_message = on_message
 
-    #client.connect("192.168.0.97", port=1883, keepalive=60)
-    #client.loop_start()
+    #try:
+        #client.connect("192.168.0.97", port=1883, keepalive=60)
+        #client.loop_start()
+    #except Exception, e:
+        #print('MQTT connection error, ' + e.args)   # (111, Connection refused) if broker is down
+        # Print a message but keep running, still need to monitor physical garage door buttons.
 
     while True:
         sm_door_btn = GPIO.input(22)
@@ -82,16 +89,6 @@ try:
 except KeyboardInterrupt:
     client.loop_stop()
     GPIO.cleanup()
-except Exception, e:
-    if e.__class__.__name__ == 'error' and e.args[0] == 111 and e.args[1] == 'Connection refused':
-        #print(type(e).__name__)   # just 'error'
-        #print(e.args)   # (111, Connection refused)
-        client.loop_stop()
-        # Stop MQTT operations but keep running script to handle physical garage door buttons.
-    else:
-        print(e.__class__.__name__ + ', ' + e.args)
-        client.loop_stop()
-        GPIO.cleanup()
 finally:
     client.loop_stop()
     GPIO.cleanup()
