@@ -29,6 +29,7 @@ sudo usermod -aG docker pi
 docker pull ghcr.io/home-assistant/raspberrypi2-homeassistant:2021.7.1
 docker run --init -d --name hass --restart=unless-stopped -v /etc/localtime:/etc/localtime:ro -v /home/pi/hass:/config --net=host homeassistant/raspberrypi2-homeassistant:2021.7.1
 # Will need to update version number labels on these 2 cmds in future.
+# Any HASS version over 7.0 needs a 'trusted_proxy' in an http block, example here: https://www.home-assistant.io/integrations/http#use_x_forwarded_for
 
 # Mosquitto and MQTT (careful w/'mosquitto-clients' on RPi2, it's an older version that doesn't support '-L' flag):
 sudo apt install mosquitto-clients
@@ -43,6 +44,10 @@ ssh-keygen
 # Then add new ssh key in GitHub settings and 'git clone' this repo.
 # Add new line to run simple hw-monitoring every minute, '* * * * * sh /home/pi/rpi-utils/rpi2-hw-info-to-mqtt.sh'
 crontab -e
+
+sudo apt install wireguard
+sudo systemctl start wg-quick@wg0   # Error :(, but fixed w/next cmd :)
+sudo apt install raspberrypi-kernel-headers   # Sloooow to complete on rpi2 (more than an hour), but worth it to get wireguard running!
 ```
 
 ### rpi3 setup:
