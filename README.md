@@ -46,4 +46,6 @@ ssh-keygen
 
 sudo apt install mosquitto-clients
 
+# Add new line to run simple hw-monitoring every minute, '* * * * * sh /home/pi/rpi-utils/rpi3-hw-info-to-mqtt.sh'
+crontab -e
 ```
