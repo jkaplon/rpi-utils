@@ -17,7 +17,7 @@ I'm hoping to keep all scripts in a single directory and to come up with solid n
 I'll also try to add setup commands into this README.
 
 ### rpi2 steup:
-```
+```bash
 # Ponder if I need to find a docker alternative...
 curl -fsSL https://get.docker.com -o get-docker.sh
 # Stop pondering alternatives and just get going.
@@ -51,7 +51,7 @@ sudo apt install raspberrypi-kernel-headers   # Sloooow to complete on rpi2 (mor
 ```
 
 ### rpi3 setup:
-```
+```bash
 # Add ssh key for simpler git pushes up to GitHub.
 ssh-keygen
 
