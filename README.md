@@ -41,6 +41,9 @@ docker run -d -p 1883:1883 -p 9001:9001 --name mosquitto --restart=unless-stoppe
 
 rpi3 setup:
 ```
+# Add ssh key for simpler git pushes up to GitHub.
+ssh-keygen
+
 sudo apt install mosquitto-clients
 
 ```
