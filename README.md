@@ -46,8 +46,23 @@ ssh-keygen
 crontab -e
 
 sudo apt install wireguard
-sudo systemctl start wg-quick@wg0   # Error :(, but fixed w/next cmd :)
-sudo apt install raspberrypi-kernel-headers   # Sloooow to complete on rpi2 (more than an hour), but worth it to get wireguard running!
+# Errors from wireguard :(, but fixed w/next cmd :)
+nohup sudo apt install raspberrypi-kernel-headers &   # Trust me on the 'nohup', it's sloooow to complete on rpi2 (more than an hour), but worth it to get wireguard running!
+
+# These 2 cmds put private key into wg0.conf, but does not save into separate dir/file (one less file to protect):
+(umask 077 && printf "[Interface]\nPrivateKey = " | sudo tee /etc/wireguard/wg0.conf > /dev/null)
+wg genkey | sudo tee -a /etc/wireguard/wg0.conf | wg pubkey | sudo tee /etc/wireguard/publickey
+# Copy public key output by last cmd to add to wireguard server config as a new peer in a minute.
+
+# open wg0.conf, set VPN-IP to 10.0.0.97 (final octet same as LAN), use PersistentKeepalive = 25 again, leave out SaveConfig = true.
+sudo vi /etc/wireguard/wg0.conf
+sudo wg-quick up wg0
+sudo systemctl enable wg-quick@wg0
+
+# On wireguard central server (a Linode VPS in my case):
+sudo vim /etc/wireguard/wg0.conf   # Add new peer w/public key material from above.
+sudo systemctl restart wg-quick@wg0
+sudo wg   # To verify changes
 ```
 
 ### rpi3 setup:
