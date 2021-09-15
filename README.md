@@ -42,17 +42,18 @@ docker run -d \
     pihole/pihole:2021.09
 
 # Pull RPi2 HASS image from GitHub container registry, kinda nice to have a Docker Hub alternative.
-docker pull ghcr.io/home-assistant/raspberrypi2-homeassistant:2021.7.1
-docker run --init -d --name hass \
+docker pull ghcr.io/home-assistant/raspberrypi2-homeassistant:2021.9.6
+docker run --init -d --name hass --privileged \
     --restart=unless-stopped \
     -v /etc/localtime:/etc/localtime:ro \
     -v /home/pi/hass:/config \
     --net=host \
-    homeassistant/raspberrypi2-homeassistant:2021.7.1
+    homeassistant/raspberrypi2-homeassistant:2021.9.6
 # Will need to update version number labels on these 2 docker cmds in future.
-# Any HASS version over 7.0 needs a 'trusted_proxy' in an http block:
+# Any HASS version over 7.0 needs a 'trusted_proxy' in http block in configuration.yaml:
 #     https://www.home-assistant.io/integrations/http#use_x_forwarded_for
-# Another fun snag when upgrading to 7.0 was the need for the '--privileged' flag...
+# Another fun snag when upgrading to 7.0 was the need for the '--privileged' flag on RPi OS
+#    (1st time I've needed that flag, but I guess I'm already trusing HASS image).
 
 # Mosquitto and MQTT (careful w/'mosquitto-clients' on RPi2, it's an older version that doesn't support '-L' flag):
 sudo apt install mosquitto-clients
