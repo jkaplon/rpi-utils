@@ -55,11 +55,17 @@ docker run --init -d --name hass --privileged \
 # Another fun snag when upgrading to 7.0 was the need for the '--privileged' flag on RPi OS
 #    (1st time I've needed that flag, but I guess I'm already trusing HASS image).
 
+sudo apt install git
+ssh-keygen
+# Then add new ssh key in GitHub settings and 'git clone' this repo.
+git clone git@github.com:jkaplon/rpi-utils.git
+# Add new line to run simple hw-monitoring every minute, '* * * * * sh /home/pi/rpi-utils/rpi2-hw-info-to-mqtt.sh'
+crontab -e
+
 # Mosquitto and MQTT (careful w/'mosquitto-clients' on RPi2, it's an older version that doesn't support '-L' flag):
 sudo apt install mosquitto-clients
-mkdir ~/mosquitto && cd mosquitto
-vi mosquitto.conf
-# NOTE: must add 'listener 1883' and 'allow_anonymous true' lines
+mkdir ~/mosquitto && cp mosquitto.conf ~/mosquitto
+# NOTE: must add 'listener 1883' and 'allow_anonymous true' lines to mosquitto.conf
 #     to get mosquitto out of local-only mode and bypass username/pw (or be prepared for frustration).
 docker run -d -p 1883:1883 -p 9001:9001 \
     --name mosquitto \
@@ -68,13 +74,6 @@ docker run -d -p 1883:1883 -p 9001:9001 \
     -v /home/pi/mosquitto:/mosquitto/data \
     -v /home/pi/mosquitto:/mosquitto/log \
     eclipse-mosquitto:2
-# TODO?: check in mosquitto.conf here?
-
-sudo apt install git
-ssh-keygen
-# Then add new ssh key in GitHub settings and 'git clone' this repo.
-# Add new line to run simple hw-monitoring every minute, '* * * * * sh /home/pi/rpi-utils/rpi2-hw-info-to-mqtt.sh'
-crontab -e
 
 sudo apt install wireguard
 # Errors from wireguard :(, but fixed w/next cmd :)
