@@ -18,6 +18,8 @@ I'll also try to add setup commands into this README.
 
 ### rpi2 steup:
 ```bash
+sudo hostnamectl set-hostname rpi2
+
 # Ponder if I need to find a docker alternative...
 curl -fsSL https://get.docker.com -o get-docker.sh
 # Stop pondering alternatives and just get going.
@@ -100,6 +102,8 @@ sudo wg   # To verify changes
 
 ### rpi3 setup:
 ```bash
+sudo hostnamectl set-hostname rpi3
+
 # Add ssh key for simpler git pushes up to GitHub.
 ssh-keygen
 
