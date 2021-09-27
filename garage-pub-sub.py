@@ -88,7 +88,7 @@ try:
 
 except KeyboardInterrupt:
     client.loop_stop()
-    GPIO.cleanup()
+    #GPIO.cleanup()
 finally:
     client.loop_stop()
-    GPIO.cleanup()
+    #GPIO.cleanup()
