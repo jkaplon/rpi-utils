@@ -1,0 +1,13 @@
+[Unit]
+Description=garage
+After=multi-user.target
+
+[Service]
+User=pi
+ExecStart=/usr/bin/python /home/pi/rpi-utils/garage-pub-sub.py
+WorkingDirectory=/home/pi/rpi-utils
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

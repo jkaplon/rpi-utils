@@ -106,13 +106,19 @@ sudo hostnamectl set-hostname rpi3
 
 # Add ssh key for simpler git pushes up to GitHub.
 ssh-keygen
-
-sudo apt install mosquitto-clients
-
+# Then add new ssh key in GitHub settings and 'git clone' this repo.
+git clone git@github.com:jkaplon/rpi-utils.git
 # Add new line to run simple hw-monitoring every minute,
 #     '* * * * * sh /home/pi/rpi-utils/rpi3-hw-info-to-mqtt.sh'
 crontab -e
 
+sudo apt install mosquitto-clients
+
 sudo apt install python-pip
 sudo pip install paho-mqtt   # it DOES need sudo!
+
+# systemd service setup, create garage.service to run garage monitoring script on boot:
+sudo cp garage.service /etc/systemd/system/garage.service
+sudo systemctl daemon-reload
+sudo systemctl enable garage.service
 ```
