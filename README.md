@@ -3,18 +3,16 @@ Raspberry Pi utility scripts (for IoT and Home Assistant)
 
 This repo is for config and scripts running on the Rasperry Pis that make up my Home Assistant setup.
 At the moment, that consists of:
--  Raspbery Pi 2 running Pi-Hole, Home Assistant docker container, Mosquitto container
+-  Raspbery Pi 2 running Pi-Hole, Home Assistant docker container, Mosquitto/mqtt container
     - Raspberry Pi OS Lite (32-bit)
 -  Rasberry Pi 3 in garage controlling two garage doors
     - Raspberry Pi OS Lite (64-bit)
 
 While slowly building this setup, it was never a good time to pause for proper backups or to get the hacky python scripts into version control, but then the RPi-2 running Home Assistant server and MQTT broker when down :(. All the hardware is still working so **maybe** it was due to a loose network cable...we'll never know since I was too quick to nuke/pave the SD card with a new RPi OS image.
 Oh, and the rpi3 lives in a hot Florida garage, so who knows when it will decide to release its magic smoke...
-
 So here's my "too-little-too-late" backup strategy.
-I'm hoping to keep all scripts in a single directory and to come up with solid naming-convention to keep track of the each script's purpose or whether it's specific to particular RPi-hardware (model 2 vs model 3).
 
-I'll also try to add setup commands into this README.
+Configuration specific to Home Assistant (`configuration.yml`) are in separate repo, https://github.com/jkaplon/hass.
 
 ### rpi2 steup:
 ```bash
